@@ -529,10 +529,10 @@
             characterSelected = false;
             difficultySelected = false;
 
-            // 랭킹 보드를 표시하고 top 속성을 0으로 설정
-            var rankingBoard = document.getElementById("rankingBoard");
-            rankingBoard.style.display = "block"; // 랭킹 보드 표시
-            rankingBoard.style.top = "0"; // top 속성을 0으로 설정
+            // gameContainer를 아래로 내리기 위한 코드 추가
+            var gameContainer = document.getElementById("gameContainer");
+            gameContainer.style.position = "relative"; // position 속성 설정
+            gameContainer.style.top = "300px"; // 아래로 300px 이동
             
             // 랭킹 보드를 표시하는 함수 호출
             displayLocalRankingBoard();           
