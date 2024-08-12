@@ -889,17 +889,17 @@
                     "Content-Type": "application/json;charset=utf-8",
                 },
                 body: JSON.stringify({action: 'increment'}),
-                mode: 'cors'
+                mode: 'no-cors'  // no-cors 모드로 요청 보내기
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Participation count sent successfully:', data);
+            .then(response => {
+                console.log('Participation count sent successfully');
             })
             .catch((error) => {
                 console.error('Error sending participation count:', error);
             });
         }
 
+        
 
         
 
