@@ -160,13 +160,14 @@
             text-align: center;
             font-size: 24px;
             position: absolute;
-            top: 50%; /* 원하는 위치로 조정 가능 */
+            top: 55%; /* 원하는 위치로 조정 가능 */
             left: 50%;
             transform: translateX(-50%); /* X 축으로만 중앙 정렬 */
             padding: 10px;
             border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(128, 0, 128, 0.7);
             color: white;
+            z-index: 500; /* 다른 요소들 위에 표시되도록 설정 */
             display: none;
         }
 
@@ -376,7 +377,7 @@
 
 
     <div id="startButtonContainer">
-        <button id="startButton" class="styled-button" onclick="startGame()">게임 시작</button>
+        <button id="startButton" onclick="startGame()">게임 시작</button>
     </div>
 
     <div id="audioControls">
@@ -1215,7 +1216,7 @@
                 console.log(data); // 받아온 데이터를 콘솔에 출력하여 확인합니다.
         
                 var rankingBoard = popup.document.getElementById("rankingBoard");
-                
+        
                 // 'entire' 데이터를 처리하여 전체 랭킹을 표시합니다.
                 data.entire.forEach((entry, index) => {
                     var entryElement = popup.document.createElement("div");
@@ -1234,6 +1235,7 @@
                 loadingScreen2.style.display = "none";
             });
         }
+
 
         
         
