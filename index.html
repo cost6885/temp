@@ -18,6 +18,13 @@
         canvas {
             background: #ffd900;
         }
+
+        #gameContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         
         #loadingScreen, #loadingScreen2 {
             text-align: center;
@@ -212,7 +219,7 @@
         #characterSelection, #difficultySelection {
             display: none;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 20px;
         }
 
         .character-option {
@@ -299,21 +306,8 @@
     </div>
 
     
+    <div id="gameContainer">
     <canvas id="gameCanvas" width="640" height="600"></canvas>
-    
-
-    <div id="buttonContainer">
-        <div id="startMessage" onclick="prapare()">다시하기🔄</div>
-        <div id="exit" onclick="closeWindow()">나가기🚪</div>
-    </div>
-    
-
-    <div id="message"></div>
-    
-    <div id="rankingBoard"></div>
-
-    <button id="prepare" onclick="prapare()">준비하기</button>
-
     <div id="characterSelection">
         <h3>캐릭터를 선택하세요</h3>
         <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon1.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon1.gif')">
@@ -330,6 +324,20 @@
             <button id="challengeButton" class="difficulty-option styled-button" style="display: none;" onclick="selectDifficulty('challenge')">도전</button>
         </div>
     </div>
+    </div>        
+    
+
+    <div id="buttonContainer">
+        <div id="startMessage" onclick="prapare()">다시하기🔄</div>
+        <div id="exit" onclick="closeWindow()">나가기🚪</div>
+    </div>
+    
+
+    <div id="message"></div>
+    
+    <div id="rankingBoard"></div>
+
+    <button id="prepare" onclick="prapare()">준비하기</button>
 
 
     <div id="startButtonContainer">
