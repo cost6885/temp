@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+<head>개발서버
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>너구리를 가져와</title>
@@ -936,7 +936,7 @@
             // 로딩 스크린 표시
             showLoadingScreen();            
         
-            fetch('https://script.google.com/macros/s/AKfycbyc68W55GXQdwpSuL0yTe__d-4YbvgkliafU0OUNbrrzkmBfhSkwfGPLz22WlN_HZtvRw/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwpHX0-rZ9wTxZIJKR8XDvbzp-dQjkiwrc49EvA3ZPTgNM4y3hrHIF6K6s8hKVCyf-J0g/exec', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "text/plain;charset=utf-8",
@@ -1007,7 +1007,7 @@
             var loadingScreen2 = document.getElementById("loadingScreen2");
             loadingScreen2.style.display = "flex";
             
-            fetch('https://script.google.com/macros/s/AKfycbyc68W55GXQdwpSuL0yTe__d-4YbvgkliafU0OUNbrrzkmBfhSkwfGPLz22WlN_HZtvRw/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwpHX0-rZ9wTxZIJKR8XDvbzp-dQjkiwrc49EvA3ZPTgNM4y3hrHIF6K6s8hKVCyf-J0g/exec', {
                 mode: 'cors'
             })
             .then(response => {
@@ -1018,11 +1018,13 @@
             })
             .then(data => {
                 console.log(data); // 받아온 데이터를 콘솔에 출력하여 확인합니다.
+        
                 var rankingBoard = document.getElementById("rankingBoard");
                 rankingBoard.style.display = "block";
                 rankingBoard.innerHTML = "<h2>🏆게임 랭킹🏆</h2>";
-                // 데이터를 처리할 때 첫 번째 항목을 제거한 후 처리합니다.
-                data.slice(0).forEach((entry, index) => {
+                
+                // 'result' 데이터를 처리하여 상위 10개 랭킹을 표시합니다.
+                data.result.forEach((entry, index) => {
                     var entryElement = document.createElement("div");
                     entryElement.className = "rank";
                     if (index === 0) {
@@ -1039,9 +1041,18 @@
                         entryElement.innerHTML = `<span class="name">6등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
                     } else if (index === 6) {
                         entryElement.innerHTML = `<span class="name">7등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    } else if (index === 7) {
+                        entryElement.innerHTML = `<span class="name">8등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    } else if (index === 8) {
+                        entryElement.innerHTML = `<span class="name">9등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    } else if (index === 9) {
+                        entryElement.innerHTML = `<span class="name">10등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
                     }
                     rankingBoard.appendChild(entryElement);
                 });
+        
+                // 전체 기록을 'entire'에서 처리 (필요 시)
+                console.log("전체 최고 기록:", data.entire); // entire 데이터를 콘솔에 출력하여 확인하거나 추가 처리할 수 있습니다.
             })
             .finally(() => {
                 // 로딩 화면을 숨김
