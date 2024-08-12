@@ -570,13 +570,18 @@
             var rankingBoard = document.getElementById("rankingBoard");
             rankingBoard.style.position = "absolute"; // 위치 설정을 위해 position 속성 추가
             rankingBoard.style.top = "30%"; // 랭킹 보드를 화면에서 30% 위치로 이동       
-
+        
+            // 랭킹 보드가 이미 표시되어 있는지 확인
+            if (rankingBoard.style.display !== "block") {
+                // 랭킹 보드를 표시하는 함수 호출
+                displayLocalRankingBoard();
+            }
             
-            // 랭킹 보드를 표시하는 함수 호출
-            displayLocalRankingBoard();           
+            rankingBoard.style.display = "block"; // 랭킹 보드를 항상 표시
             
             checkStartCondition();
         }
+
 
 
 
@@ -1020,8 +1025,9 @@
             // 랭킹 보드의 위치를 위로 올리기
             var rankingBoard = document.getElementById("rankingBoard");
             rankingBoard.style.position = "absolute"; // 위치 설정을 위해 position 속성 추가
-            rankingBoard.style.top = "40%"; // 랭킹 보드를 화면에서 40%위치로            
-        
+            rankingBoard.style.top = "30%"; // 랭킹 보드를 화면에서 30% 위치로 이동       
+            document.getElementById("rankmore").style.display = "block";
+                    
             fetch('https://script.google.com/macros/s/AKfycbys9uIrBKO8vadkKTQ46w9UMoezn6EPZXCB0jjBFEYVxJGdLIXKBWMqXjbOWU3TZ1zrdQ/exec', {
                 method: 'POST',
                 headers: {
