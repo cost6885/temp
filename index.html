@@ -267,18 +267,6 @@
             cursor: pointer; /* 손가락 모양 커서 */
         }
 
-        #containerWrapper {
-            margin-top: 300px; /* 게임 캔버스와 선택 창을 함께 아래로 이동 */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        #gameContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
                 
     </style>
 </head>
@@ -318,35 +306,31 @@
         </div>
     </div>
 
-    <div id="containerWrapper">
-        <canvas id="gameCanvas" width="640" height="600"></canvas>
+    <canvas id="gameCanvas" width="640" height="600"></canvas>
         
-        <div id="gameContainer">    
-            <div id="characterSelection">
-                <h3>캐릭터를 선택하세요</h3>
-                <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon1.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon1.gif')">
-                <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon2.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon2.gif')">
-                <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon5.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon5.gif')">
-                <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon6.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon6.gif')">
-            </div>
-        
-            <div id="difficultySelection">
-                <h3>난이도를 선택하세요</h3>
-                <div class="difficulty-container">
-                    <button class="difficulty-option styled-button" onclick="selectDifficulty('easy')">쉬움</button>
-                    <button class="difficulty-option styled-button" onclick="selectDifficulty('hard')">어려움</button>
-                    <button id="challengeButton" class="difficulty-option styled-button" style="display: none;" onclick="selectDifficulty('challenge')">도전</button>
-                </div>
+    <div id="gameContainer">    
+        <div id="characterSelection">
+            <h3>캐릭터를 선택하세요</h3>
+            <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon1.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon1.gif')">
+            <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon2.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon2.gif')">
+            <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon5.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon5.gif')">
+            <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon6.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon6.gif')">
+        </div>
+    
+        <div id="difficultySelection">
+            <h3>난이도를 선택하세요</h3>
+            <div class="difficulty-container">
+                <button class="difficulty-option styled-button" onclick="selectDifficulty('easy')">쉬움</button>
+                <button class="difficulty-option styled-button" onclick="selectDifficulty('hard')">어려움</button>
+                <button id="challengeButton" class="difficulty-option styled-button" style="display: none;" onclick="selectDifficulty('challenge')">도전</button>
             </div>
         </div>
     </div>
 
-
     <div id="buttonContainer">
         <div id="startMessage" onclick="prapare()">다시하기🔄</div>
         <div id="exit" onclick="closeWindow()">나가기🚪</div>
-    </div>
-    
+    </div>   
 
     <div id="message"></div>
     
@@ -544,21 +528,14 @@
             // 선택 상태 초기화
             characterSelected = false;
             difficultySelected = false;
+
+            // 랭킹 보드를 표시하고 top 속성을 0으로 설정
+            var rankingBoard = document.getElementById("rankingBoard");
+            rankingBoard.style.display = "block"; // 랭킹 보드 표시
+            rankingBoard.style.top = "0"; // top 속성을 0으로 설정
             
             // 랭킹 보드를 표시하는 함수 호출
-            displayLocalRankingBoard();
-            
-            // 랭킹 보드의 높이 계산 및 characterSelection, difficultySelection 위치 조정
-            setTimeout(function() {
-                var rankingBoard = document.getElementById("rankingBoard");
-                var characterSelection = document.getElementById("characterSelection");
-                var difficultySelection = document.getElementById("difficultySelection");
-                
-                // 랭킹 보드의 높이만큼 margin-top을 설정
-                var rankingBoardHeight = rankingBoard.offsetHeight;
-                characterSelection.style.marginTop = (rankingBoardHeight + 20) + "px"; // 여유 공간 포함
-                difficultySelection.style.marginTop = "10px"; // characterSelection 바로 아래에 위치
-            }, 100); // 100ms 딜레이 후 실행
+            displayLocalRankingBoard();           
             
             checkStartCondition();
         }
