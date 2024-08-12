@@ -528,18 +528,27 @@
             // 선택 상태 초기화
             characterSelected = false;
             difficultySelected = false;
-
+        
             // gameContainer를 아래로 내리기 위한 코드 추가
             var gameContainer = document.getElementById("gameContainer");
             gameContainer.style.position = "relative"; // position 속성 설정
             gameContainer.style.top = "300px"; // 아래로 300px 이동
+        
+            // 랭킹 보드의 위치를 위로 올리기
+            var rankingBoard = document.getElementById("rankingBoard");
+            rankingBoard.style.position = "absolute"; // 위치 설정을 위해 position 속성 추가
+            rankingBoard.style.top = "30%"; // 랭킹 보드를 화면에서 30% 위치로 이동
+        
+            // 시작 버튼 위치 조정
+            var startButtonContainer = document.getElementById("startButtonContainer");
+            startButtonContainer.style.position = "absolute"; // 위치 설정을 위해 position 속성 추가
+            startButtonContainer.style.top = "60%"; // 시작 버튼을 75%에서 60%로 15% 위로 이동
             
             // 랭킹 보드를 표시하는 함수 호출
             displayLocalRankingBoard();           
             
             checkStartCondition();
         }
-
 
 
         function selectCharacter(src) {
@@ -976,6 +985,11 @@
         
             // 로딩 스크린 표시
             showLoadingScreen();            
+
+            // 랭킹 보드의 위치를 위로 올리기
+            var rankingBoard = document.getElementById("rankingBoard");
+            rankingBoard.style.position = "absolute"; // 위치 설정을 위해 position 속성 추가
+            rankingBoard.style.top = "40%"; // 랭킹 보드를 화면에서 40%위치로            
         
             fetch('https://script.google.com/macros/s/AKfycbwpHX0-rZ9wTxZIJKR8XDvbzp-dQjkiwrc49EvA3ZPTgNM4y3hrHIF6K6s8hKVCyf-J0g/exec', {
                 method: 'POST',
