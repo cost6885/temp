@@ -839,6 +839,21 @@
 
 
         function startGame() {
+            // 참여 횟수를 로컬 스토리지에서 가져옴
+            let participationCount = localStorage.getItem('participationCount');
+            
+            if (!participationCount) {
+                participationCount = 0;
+            }
+            
+            participationCount++;
+            
+            // 참여 횟수를 로컬 스토리지에 저장
+            localStorage.setItem('participationCount', participationCount);
+        
+            // 참여 횟수를 구글 스프레드시트로 발송
+            sendParticipationCount();
+                
             document.getElementById("fallingItem").style.display = "none";
             document.getElementById("gameDescription").style.display = 'none';
             document.getElementById("formContainer").style.display = "none";
@@ -863,6 +878,27 @@
             startTime = Date.now();
             draw();
         }
+
+
+        function sendParticipationCount() {
+            fetch('https://script.google.com/macros/s/AKfycbwCNm9dsEY7CcCancHbDQ32LPy8tHeoYt_8zPpkhIK9jSTRGCBNIY8Ere7drerMfkCU/exec', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                body: JSON.stringify({action: 'increment'}),
+                mode: 'cors'
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Participation count sent successfully:', data);
+            })
+            .catch((error) => {
+                console.error('Error sending participation count:', error);
+            });
+        }
+
+        
 
         function draw() {
             if (!gameStarted) return;
