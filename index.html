@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>너구리를 가져와</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+        }
+        canvas {
+            background: #ffd900;
+        }
+        
+        #loadingScreen, #loadingScreen2 {
+            text-align: center;
+            font-size: 40px;
+            position: fixed; /* 화면 전체를 덮도록 설정 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* 배경을 어둡게 */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000; /* 다른 요소들 위에 표시되도록 설정 */
+        }
+
+        #loadingScreen img, #loadingScreen2 img {
+            width: 50%; /* 필요에 따라 크기를 조정 */
+            height: auto;
+        }
+
+        #loadingScreen p, #loadingScreen2 p {
+            margin-top: 20px; /* 텍스트와 이미지 사이의 간격 */
+        }
+
+        #formContainer {
+            text-align: center;
+            font-size: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding-top: 30px;    /* 상단 패딩 */
+            padding-right: 20px;  /* 우측 패딩 */
+            padding-bottom: 30px; /* 하단 패딩 */
+            padding-left: 20px;   /* 좌측 패딩 */
+            width: 80%;           /* 너비 조정 */
+            max-width: 600px;     /* 최대 너비 설정 */
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: none;
+        }
+
+        .sendform {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 8px 4px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition-duration: 0.4s;
+        }
+        .sendform:hover {
+            background-color: white;
+            color: black;
+            border: 2px solid #4CAF50;
+            cursor: pointer; /* 손가락 모양 커서 */
+        }
+
+        
+        #buttonContainer {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 20px; /* 버튼 사이의 간격 조정 */
+        }
+        
+        #startMessage, #exit {
+            text-align: center;
+            font-size: 24px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: none;
+        }   
+
+
+        #message {
+            text-align: center;
+            font-size: 18px;
+            position: absolute;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border-radius: 10px;            
+            color: black;
+            font-weight: bold;
+            font-family: 'Nanum Gothic', 'Malgun Gothic', sans-serif;
+            display: none;
+        }       
+        
+
+        #startButton, #prepare {
+            text-align: center;
+            font-size: 24px;
+            position: absolute;
+            top: 75%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: none;
+        }
+
+        #startButton:hover, #prepare:hover, #exit:hover, #startMessage:hover {
+            background-color: white;
+            color: black;
+            border: 2px solid #4CAF50;
+            cursor: pointer; /* 손가락 모양 커서 */
+        }
+        
+       
+        #gameDescription {
+            text-align: center;
+            font-size: 16px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding-top: 5px;    /* 상단 패딩 */
+            padding-right: 10px;  /* 우측 패딩 */
+            padding-bottom: 5px; /* 하단 패딩 */
+            padding-left: 10px;   /* 좌측 패딩 */
+            border-radius: 10px;
+            display: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: black;
+            font-weight: bold;
+            font-family: 'Nanum Gothic', 'Malgun Gothic', sans-serif;
+        }
+
+        
+        #rankingBoard {
+            text-align: center;
+            font-size: 20px;
+            position: absolute;
+            top: 40%;
+            left: 50%;            
+            transform: translate(-50%, -50%);
+            padding: 20px 80px; /* 상하 좌우 패딩을 각각 20px과 40px로 설정 */
+            border-radius: 10px;
+            display: none;
+            background-color: rgba(255, 255, 0, 0.5);
+            color: black;
+            font-weight: bold;
+            font-family: 'Nanum Gothic', 'Malgun Gothic', sans-serif;
+            line-height: 1.6; /* 줄 간격 조절 */
+        }
+        
+        .styled-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 8px 4px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition-duration: 0.4s;
+        }
+        .styled-button:hover {
+            background-color: white;
+            color: black;
+            border: 2px solid #4CAF50;
+            cursor: pointer; /* 손가락 모양 커서 */
+        }
+        
+        .game-start {
+            margin-bottom: 32px; /* 게임 시작 문구 아래에 여백 추가 */
+        }
+        .ranking-section {
+            margin-top: 16px; 
+        }
+        #characterSelection, #difficultySelection {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .character-option {
+            margin: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+            width: 100px; /* 이미지 너비 조정 */
+            height: auto; /* 자동 높이 조정 */
+        }
+
+        .character-option:hover, .difficulty-option:hover {
+            border-color: blue;
+            cursor: pointer; /* 손가락 모양 커서 */
+        }
+
+        .selected {
+            border: 2px solid red;
+        }
+
+        #startButtonContainer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #audioControls {
+            position: fixed;
+            top: calc(50% - 300px - 40px); /* 화면 중앙에서 캔버스 높이의 절반과 버튼 위치를 조정 */
+            right: calc(50% - 320px); /* 화면 중앙에서 캔버스 너비의 절반을 조정 */
+        }        
+
+        .difficulty-container {
+            display: flex;
+            justify-content: center; /* 중앙 정렬 */
+            gap: 10px; /* 버튼 사이의 간격 */
+        }
+
+        #challengeButton {            
+            background-color: red; /* 시뻘건색 */
+        }
+
+        #challengeButton:hover {            
+            background-color: white; /* 시뻘건색 */
+            border-color: blue;
+            cursor: pointer; /* 손가락 모양 커서 */
+        }
+                
+    </style>
+</head>
+<body>
+    <div id="gameDescription">
+        <p>과연 너구리씨🦝는 라면들을 가지고</p>
+        <p>저녁식사 시간⏱ 전에 돌아 갈 수 있을까요?</p>
+        <p>단짝친구 다시마들이 도와줄테니 너무 걱정마세요^^</p>
+        <p>Tip❗ 가끔씩 떨어지는 스프 먹기</p>
+        <p class="game-start">'준비하기' 버튼을 클릭👆하세요.</p> <!-- 여백 추가 -->
+        <p class="ranking-section">🏆랭킹 1등🏆 너구리 멀티팩(40입)</p>
+        <p>🥇랭킹 2등🥇 너구리컵(30입)</p>
+        <p>🥈랭킹 3등🥈 카구리큰사발(16입)</p>
+        <p>👥참여자 추첨(7명)👥 누들핏 카구리맛(8입)</p>
+        <p>👀중복 당첨 불가👀</p>
+    </div>
+    
+    <div id="formContainer">
+        <label>회사: <input type="text" id="company"></label><br>
+        <label>사번: <input type="text" id="employeeId"></label><br>
+        <label>이름: <input type="text" id="name"></label><br>
+        <button class="sendform" onclick="sendToGoogleSheets()">응모하기</button>
+        <button class="sendform" onclick="prapare()">다시하기</button>
+    </div>
+    
+    <div id="loadingScreen">
+        <div>
+            <img src="https://github.com/cost6885/tbon2/raw/main/image/loading2.gif" alt="Loading...">
+            <p>로딩 중...</p>
+        </div>
+    </div>
+
+        <div id="loadingScreen2">
+        <div>
+            <img src="https://github.com/cost6885/tbon2/raw/main/image/loading3.webp" alt="Loading...">
+            <p>랭킹을 가져오는 중...</p>
+        </div>
+    </div>
+
+    
+    <canvas id="gameCanvas" width="640" height="600"></canvas>
+    
+
+    <div id="buttonContainer">
+        <div id="startMessage" onclick="prapare()">다시하기🔄</div>
+        <div id="exit" onclick="closeWindow()">나가기🚪</div>
+    </div>
+    
+
+    <div id="message"></div>
+    
+    <div id="rankingBoard"></div>
+
+    <button id="prepare" onclick="prapare()">준비하기</button>
+
+    <div id="characterSelection">
+        <h3>캐릭터를 선택하세요</h3>
+        <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon1.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon1.gif')">
+        <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon2.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon2.gif')">
+        <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon5.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon5.gif')">
+        <img src="https://github.com/cost6885/tbon2/raw/main/image/racoon6.gif" class="character-option" onclick="selectCharacter('https://github.com/cost6885/tbon2/raw/main/image/racoon6.gif')">
+    </div>
+
+    <div id="difficultySelection">
+        <h3>난이도를 선택하세요</h3>
+        <div class="difficulty-container">
+            <button class="difficulty-option styled-button" onclick="selectDifficulty('easy')">쉬움</button>
+            <button class="difficulty-option styled-button" onclick="selectDifficulty('hard')">어려움</button>
+            <button id="challengeButton" class="difficulty-option styled-button" style="display: none;" onclick="selectDifficulty('challenge')">도전</button>
+        </div>
+    </div>
+
+
+    <div id="startButtonContainer">
+        <button id="startButton" class="styled-button" onclick="startGame()">게임 시작</button>
+    </div>
+
+    <div id="audioControls">
+        <button onclick="pauseAudio()">BGM OFF🔈</button>
+        <button onclick="playAudio()">BGM ON🔊</button>        
+    </div>
+
+    <!-- BGM 추가 -->
+    <audio id="bgm" loop>
+        <source src="https://firebasestorage.googleapis.com/v0/b/driven-cabinet-381405.appspot.com/o/%5BRoyalty%20Free%20Music%5D%20Ponpoko%20(8bit%20game%20retro).mp3?alt=media&token=d99399f7-fd8f-4d65-87bd-0c70ffc37bf3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- 낙하아이템 추가 -->
+    <img id="fallingItem" src="https://github.com/cost6885/tbon2/raw/main/image/soup2.png" style="display: none; position: absolute; width: 80px; height: 70px;" alt="Falling Item">
+    
+
+    <script>
+
+        var defaultCharacter = 'https://github.com/cost6885/tbon2/raw/main/image/racoon1.gif';
+
+        var totalItems;        
+
+        var item, itemX, itemY, itemFalling = false, itemCaught = false, itemStock = false;
+
+        var itemHeight = 108; // 아이템 높이 정의
+        var itemWidth = 100; // 아이템 너비 정의
+        var fallingItem = document.getElementById('fallingItem'); // 떨어지는 아이템 이미지
+        var fallingItemData = null; // 떨어지는 아이템 데이터 초기화        
+        
+        var canvas, ctx, ballRadius = 10, x, y, dx = 6, dy = -6, paddleHeight = 47, paddleWidth = 133, paddleX;
+        var rightPressed = false, leftPressed = false;
+        var brickRowCount = 2, brickColumnCount = 6, brickWidth = 100, brickHeight = 108, brickPadding = 0, brickOffsetTop = 20, brickOffsetLeft = 20;
+        var bricks = [], score = 0, gameStarted = false, startTime, elapsedTime;
+        var brickImage, image, canvasImage;
+        var enlargedBallRadius = ballRadius * 5;
+        var ballImage = new Image();
+        var characterSelected = false;
+        var difficultySelected = false;
+        var difficulty = 'easy';
+        var audio = document.getElementById('bgm');
+        var isDragging = false;
+        var gamecount = 0
+        ballImage.src = defaultCharacter;
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            document.getElementById("loadingScreen2").style.display = "none";
+            
+            showLoadingScreen();
+            canvas = document.getElementById("gameCanvas");
+            ctx = canvas.getContext("2d");
+
+            document.addEventListener("keydown", keyDownHandler);
+            document.addEventListener("keyup", keyUpHandler);
+            canvas.addEventListener("mousedown", mouseDownHandler);
+            canvas.addEventListener("mouseup", mouseUpHandler);
+            canvas.addEventListener("mousemove", mouseMoveHandler);
+            canvas.addEventListener("touchstart", touchStartHandler);
+            canvas.addEventListener("touchend", touchEndHandler);
+            canvas.addEventListener("touchmove", touchMoveHandler);            
+            
+            brickImage = new Image();
+            brickImage.src = "https://github.com/cost6885/tbon2/raw/main/image/block.png";
+
+            canvasImage = new Image();
+            canvasImage.src = 'https://github.com/cost6885/tbon2/raw/main/image/ramenbg.jpg';
+
+            canvasImage.onload = function() {
+                ctx.globalAlpha = 0.9;
+                ctx.drawImage(canvasImage, 0, 0, canvas.width, canvas.height);
+                ctx.globalAlpha = 1;
+                hideLoadingScreen();                
+                showStartButton();
+                            
+                audio.play().catch(function(error) {
+                    // 자동 재생 실패 시, 사용자 상호작용을 기다림
+                    console.log('Auto-play prevented by browser:', error);
+                });
+            };
+
+            brickImage.onload = function() {
+                // Brick image 로드 후 작업이 필요한 경우 여기에 작성
+            };
+
+            ballImage.onload = function() {
+                // Ball image 로드 후 작업이 필요한 경우 여기에 작성
+            };
+        });
+
+
+
+        function startItemFall(brickX, brickY) {
+            itemFalling = true;
+            itemCaught = false;
+            itemStock = false;
+        
+            // 캔버스의 위치를 가져옴
+            var canvasRect = canvas.getBoundingClientRect();
+        
+            // 아이템 위치를 캔버스 기준으로 조정
+            itemX = canvasRect.left + brickX + brickWidth / 2 - itemWidth / 2;
+            itemY = canvasRect.top + brickY;
+        
+            item = document.getElementById('fallingItem'); // 아이템 이미지 요소 가져오기
+            item.style.position = "absolute";
+            item.style.left = itemX + "px";
+            item.style.top = itemY + "px";
+            item.style.display = "block";
+        }
+
+
+        function updateItemFall() {
+            if (itemFalling) {
+                itemY += 5; // 아이템의 낙하 속도
+        
+                // 캔버스의 위치를 가져옴
+                var canvasRect = canvas.getBoundingClientRect();
+        
+                // 아이템 위치를 캔버스 기준으로 조정
+                var relativeItemX = itemX - canvasRect.left;
+                var relativeItemY = itemY - canvasRect.top;
+        
+                item.style.left = itemX + "px";
+                item.style.top = itemY + "px";
+        
+                // 패들과 충돌 체크 (캔버스 기준으로 계산)
+                if (relativeItemY + itemHeight > canvas.height - paddleHeight - 10 && relativeItemY + itemHeight < canvas.height) {
+                    // 패들의 전체 영역과 충돌 체크
+                    if (relativeItemX + itemWidth > paddleX && relativeItemX < paddleX + paddleWidth) {
+                        itemFalling = false;
+                        itemStock = true;
+                        item.style.display = "none";
+                        
+                        // 새로운 이미지 객체 생성
+                        var newBallImage = new Image();
+                        newBallImage.src = 'https://github.com/cost6885/tbon2/raw/main/image/racoon7.png'; // 너구리 흑화
+                        
+                        // 이미지가 로드된 후에 블럭 무시 효과 적용
+                        newBallImage.onload = function() {
+                            ballImage.src = newBallImage.src;
+                            itemCaught = true;  // 이미지가 변경된 후에 블럭 무시 효과 발생
+                        };
+        
+                        return; // 충돌 시 즉시 함수 종료
+                    }
+                }
+        
+                // 아이템이 바닥에 도달했을 때
+                if (relativeItemY + itemHeight >= canvas.height) {
+                    itemFalling = false;
+                    item.style.display = "none"; // 아이템이 사라지게 처리
+                }
+            }
+        }
+
+
+        
+        
+
+        function closeWindow() {
+            window.close();
+        }
+        
+        function playAudio() {
+            audio.play();
+        }
+
+        function pauseAudio() {
+            audio.pause();
+            audio.currentTime = 0;  // 재생 위치를 처음으로 돌림
+        }            
+        
+    function prapare() {
+        document.getElementById("gameDescription").style.display = 'none';
+        document.getElementById("formContainer").style.display = "none";
+        document.getElementById("message").style.display = "none";
+        document.getElementById("gameCanvas").style.display = "none";
+        document.getElementById("rankingBoard").style.display = "block";  // 랭킹 보드 표시
+        document.getElementById("startMessage").style.display = "none";
+        document.getElementById("prepare").style.display = "none";
+        document.getElementById("exit").style.display = "none";
+        document.getElementById("characterSelection").style.display = "block";
+        document.getElementById("difficultySelection").style.display = "block";
+    
+        // 선택 상태 초기화
+        characterSelected = false;
+        difficultySelected = false;
+    
+        // 랭킹 보드의 높이에 따라 characterSelection과 difficultySelection의 위치를 조정
+        var rankingBoard = document.getElementById("rankingBoard");
+        var characterSelection = document.getElementById("characterSelection");
+        var difficultySelection = document.getElementById("difficultySelection");
+    
+        // 랭킹 보드의 높이만큼 margin-top을 설정
+        var rankingBoardHeight = rankingBoard.offsetHeight;
+        characterSelection.style.marginTop = (rankingBoardHeight + 20) + "px"; // 여유 공간 포함
+        difficultySelection.style.marginTop = "10px"; // characterSelection 바로 아래에 위치
+    
+        checkStartCondition();
+    }
+
+
+        function selectCharacter(src) {
+            ballImage.src = src;
+            characterSelected = true;
+            document.querySelectorAll('.character-option').forEach(el => el.classList.remove('selected'));
+            event.target.classList.add('selected');
+            checkStartCondition();
+        }
+
+
+        function selectDifficulty(level) {
+            difficulty = level;
+            difficultySelected = true;
+            document.querySelectorAll('.difficulty-option').forEach(el => el.classList.remove('selected'));
+            event.target.classList.add('selected');
+            checkStartCondition();
+        }
+
+        function checkStartCondition() {
+            if (characterSelected && difficultySelected) {
+                document.getElementById('startButton').style.display = 'block';
+            }
+            if (gamecount >= 3) {
+                document.getElementById('challengeButton').style.display = 'inline-block';
+            }
+        }
+        
+        function showLoadingScreen() {
+            document.getElementById("loadingScreen").style.display = "flex";
+        }
+
+        function hideLoadingScreen() {
+            document.getElementById("loadingScreen").style.display = "none";
+        }
+
+        function showStartButton() {
+            document.getElementById('prepare').style.display = 'block';
+            document.getElementById('gameDescription').style.display = 'block';
+        }
+
+        function drawBackground() {
+            ctx.globalAlpha = 0.3; // 투명도 설정 (0.0에서 1.0 사이 값)
+            ctx.drawImage(canvasImage, 0, 0, canvas.width, canvas.height);  // 배경 이미지 그리기
+            ctx.globalAlpha = 1.0; // 투명도 원래대로 돌리기
+        }
+        
+        function initGame() {
+            console.log("Initializing game...");
+            x = canvas.width / 4; // 공의 초기 위치를 캔버스의 3분의 1 지점으로 설정
+            y = canvas.height - paddleHeight - enlargedBallRadius; // 패들 위로 공의 초기 위치 설정
+            dx = 5;
+            dy = -5;
+            paddleX = (canvas.width - paddleWidth) / 3; // 패들의 초기 위치를 캔버스의 3분의 1 지점으로 설정
+        
+            bricks = [];
+            for (var c = 0; c < brickColumnCount; c++) {
+                bricks[c] = [];
+                for (var r = 0; r < brickRowCount; r++) {
+                    bricks[c][r] = { x: 0, y: 0, status: 1 };
+                }
+            }
+        
+            score = 0;            
+            itemCaught = false; // 특수 모드 초기화
+            document.getElementById("fallingItem").style.display = "none";
+            document.getElementById("message").style.display = "none";
+            document.getElementById("startMessage").style.display = "none";
+            document.getElementById('prepare').style.display = 'none';
+            document.getElementById("characterSelection").style.display = "none";
+            gameStarted = false; // Ensure gameStarted is reset
+            elapsedTime = 0;
+            totalItems = Math.floor(Math.random() * 5) + 1; // 총 아이템 수 1~5 사이로 설정
+            fallingItemData = null; // 아이템 데이터 초기화            
+            console.log("Game initialized.");
+        }
+
+
+        function keyDownHandler(e) {
+            if (e.key === "Right" || e.key === "ArrowRight") {
+                rightPressed = true;
+            } else if (e.key === "Left" || e.key === "ArrowLeft") {
+                leftPressed = true;
+            } else if (e.key === " " && successMessageShown) {
+                document.getElementById("startMessage").style.display = "none";
+                prapare();  // initGame() 대신 prepare() 함수를 호출하여 준비 상태로 돌아갑니다.
+                successMessageShown = false; // 메시지가 숨겨졌음을 표시
+            }
+        }
+
+        function keyUpHandler(e) {
+            if (e.key === "Right" || e.key === "ArrowRight") {
+                rightPressed = false;
+            } else if (e.key === "Left" || e.key === "ArrowLeft") {
+                leftPressed = false;
+            }
+        }
+
+        function mouseDownHandler(e) {
+            isDragging = true;
+        }
+        
+        function mouseUpHandler(e) {
+            isDragging = false;
+        }
+        
+        function mouseMoveHandler(e) {
+            if (isDragging) {
+                var relativeX = e.clientX - canvas.offsetLeft;
+                if (relativeX > 0 && relativeX < canvas.width) {
+                    paddleX = relativeX - paddleWidth / 2;
+                }
+            }
+        }
+        
+        function touchStartHandler(e) {
+            isDragging = true;
+        }
+        
+        function touchEndHandler(e) {
+            isDragging = false;
+        }
+        
+        function touchMoveHandler(e) {
+            if (isDragging) {
+                var touch = e.touches[0];
+                var relativeX = touch.clientX - canvas.offsetLeft;
+                if (relativeX > 0 && relativeX < canvas.width) {
+                    paddleX = relativeX - paddleWidth / 2;
+                }
+            }
+        }
+
+        
+        function drawSuccessMessage() {
+            console.log("Drawing success message...");
+            ctx.fillStyle = "black";
+            ctx.font = "24px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText(`성공! ${elapsedTime}초`, canvas.width / 2, canvas.height / 2 - 20); // 화면 중앙에 메시지 출력
+        
+            // Calculate and store elapsed time
+            var endTime = Date.now();
+            elapsedTime = ((endTime - startTime) / 1000).toFixed(2);
+            localStorage.setItem("elapsedTime", elapsedTime);
+        
+            // 새로운 기록을 저장
+            var name = localStorage.getItem("name") || "Unknown";
+            var newEntry = { name: name, elapsedTime: parseFloat(elapsedTime) };
+            saveLocalRanking(newEntry);        
+        
+            // Display event application form and button
+            document.getElementById("formContainer").style.display = "block";
+            document.getElementById("message").style.display = "block";
+            
+            var messageElement = document.getElementById("message");
+            messageElement.style.display = "block";
+            messageElement.innerText = `성공! ${elapsedTime}초`;
+        
+            successMessageShown = true;
+            console.log("Success message drawn.");
+        }
+
+
+        function drawBall() {
+            ctx.drawImage(ballImage, x - enlargedBallRadius, y - enlargedBallRadius, enlargedBallRadius * 2, enlargedBallRadius * 2);
+        }
+
+
+        var paddleImage = new Image();    
+        paddleImage.src = "https://github.com/cost6885/tbon2/raw/main/image/dasima.png";
+
+
+        function drawPaddle() {
+            ctx.drawImage(paddleImage, paddleX, canvas.height - paddleHeight - 10, paddleWidth, paddleHeight);
+        }
+
+        function drawBricks() {
+            for (var c = 0; c < brickColumnCount; c++) {
+                for (var r = 0; r < brickRowCount; r++) {
+                    if (bricks[c][r].status == 1) {
+                        var brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
+                        var brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
+                        bricks[c][r].x = brickX;
+                        bricks[c][r].y = brickY;
+                        ctx.drawImage(brickImage, brickX, brickY, brickWidth, brickHeight);
+                    }
+                }
+            }
+        }
+
+        function drawElapsedTime() {
+            if (gameStarted) {
+                elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+                ctx.fillStyle = "white";
+                ctx.font = "24px Arial";
+                ctx.textAlign = "center";
+                ctx.fillText(`경과시간: ${elapsedTime}초`, canvas.width / 2, canvas.height * 2 / 3);
+            }
+        }
+
+        function collisionDetection() {
+            for (var c = 0; c < brickColumnCount; c++) {
+                for (var r = 0; r < brickRowCount; r++) {
+                    var b = bricks[c][r];
+                    if (b.status == 1) {
+                        if (x + dx > b.x && x + dx < b.x + brickWidth && y + dy > b.y && y + dy < b.y + brickHeight) {
+                            // 아이템을 획득한 경우 벽돌을 뚫고 지나감
+                            if (!itemCaught) { 
+                                var hitFromLeft = x + enlargedBallRadius > b.x && x - enlargedBallRadius < b.x;
+                                var hitFromRight = x + enlargedBallRadius > b.x + brickWidth && x - enlargedBallRadius < b.x + brickWidth;
+                                var hitFromTop = y + enlargedBallRadius > b.y && y - enlargedBallRadius < b.y;
+                                var hitFromBottom = y + enlargedBallRadius > b.y + brickHeight && y - enlargedBallRadius < b.y + brickHeight;
+        
+                                if (hitFromLeft || hitFromRight) {
+                                    dx = -dx;
+                                }
+                                if (hitFromTop || hitFromBottom) {
+                                    dy = -dy;
+                                }
+                            }
+                            
+                            b.status = 0;
+                            score++;
+                            if (score == brickRowCount * brickColumnCount) {
+                                gameStarted = false;
+                                drawSuccessMessage();
+                            }
+
+                            // 아이템이 낙하 중이 아니고, itemStock이 false일 때만 새로운 아이템 생성
+                            if (!itemFalling && !itemStock) {
+                                if (Math.random() < 0.1) {  // 아이템 낙하를 시작할 확률 (예: 10%)
+                                    startItemFall(b.x, b.y);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        
+            if (y + dy > canvas.height - paddleHeight - enlargedBallRadius) {
+                if (x > paddleX && x < paddleX + paddleWidth) {
+                    var hitPos = (x - paddleX) / paddleWidth;
+                    var angle = (hitPos - 0.5) * Math.PI / 2;  // -45도에서 45도 사이의 각도
+                    var speed = Math.sqrt(dx * dx + dy * dy) * 1.05; // 속도 약간 증가
+        
+                    dx = speed * Math.sin(angle);
+                    dy = -speed * Math.cos(angle);
+        
+                    if (difficulty === 'hard') {
+                        adjustSpeed(10, 19, 40);
+                    } else if (difficulty === 'challenge') {
+                        adjustSpeed(40, 76, 160); // 최소 및 최대 속도를 hard의 4배로 설정
+                    } else {
+                        adjustSpeed(5, 7, 0); // 쉬움 난이도에서는 속도를 줄이고 각도 변경을 하지 않습니다.
+                    }
+        
+                    y = canvas.height - paddleHeight - enlargedBallRadius;
+                } else if (y + dy > canvas.height - enlargedBallRadius) {
+                    gameStarted = false;
+                    document.getElementById("startMessage").style.display = "block";
+                    successMessageShown = true;
+                    return;
+                }
+            }
+        }
+
+
+
+
+        
+        function adjustSpeed(minSpeed, maxSpeed, randAngleRange) {
+            if (randAngleRange > 0) {
+                var randAngle = (Math.random() - 0.5) * randAngleRange;
+                dx += randAngle;
+            }
+        
+            var angle = Math.atan2(dy, dx);
+            var minAngle = Math.PI / 6;
+        
+            if (Math.abs(angle) < minAngle) {
+                if (angle < 0) {
+                    angle = -minAngle;
+                } else {
+                    angle = minAngle;
+                }
+                var speed = Math.sqrt(dx * dx + dy * dy);
+                dx = speed * Math.cos(angle);
+                dy = speed * Math.sin(angle);
+            }
+        
+            var speed = Math.sqrt(dx * dx + dy * dy);
+            if (speed < minSpeed || speed > maxSpeed) {
+                var randomSpeed = minSpeed + Math.random() * (maxSpeed - minSpeed);
+                dx = (dx / speed) * randomSpeed;
+                dy = (dy / speed) * randomSpeed;
+            }
+        }
+
+
+        function startGame() {
+            document.getElementById("fallingItem").style.display = "none";
+            document.getElementById("gameDescription").style.display = 'none';
+            document.getElementById("formContainer").style.display = "none";
+            document.getElementById("gameCanvas").style.display = "block";
+            document.getElementById("rankingBoard").style.display = "none";
+            document.getElementById("startMessage").style.display = "none";
+            document.getElementById("startButton").style.display = "none";
+            document.getElementById('characterSelection').style.display = 'none';
+            document.getElementById('difficultySelection').style.display = 'none';
+
+            var company = document.getElementById("company").value;
+            var employeeId = document.getElementById("employeeId").value;
+            var name = document.getElementById("name").value;
+            localStorage.setItem("company", company);
+            localStorage.setItem("employeeId", employeeId);
+            localStorage.setItem("name", name);
+
+            itemCaught = false; // 특수 모드 초기화
+            
+            initGame();
+            gameStarted = true;
+            startTime = Date.now();
+            draw();
+        }
+
+        function draw() {
+            if (!gameStarted) return;
+        
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            drawBricks();
+            drawBall();
+            drawPaddle();
+            drawElapsedTime();
+            updateItemFall(); // 아이템 낙하 업데이트
+            collisionDetection();
+                
+            if (x + dx > canvas.width - enlargedBallRadius || x + dx < enlargedBallRadius) {
+                dx = -dx;
+            }
+            if (y + dy < enlargedBallRadius) {
+                dy = -dy;
+            } else if (y + dy > canvas.height - enlargedBallRadius) {
+                if (x > paddleX - enlargedBallRadius && x < paddleX + paddleWidth + enlargedBallRadius) {
+                    dy = -dy;
+                    y = canvas.height - paddleHeight - enlargedBallRadius;
+                } else {
+                    gameOver();
+                    return;
+                }
+            }
+        
+            if (rightPressed && paddleX < canvas.width - paddleWidth) {
+                paddleX += 7;
+            } else if (leftPressed && paddleX > 0) {
+                paddleX -= 7;
+            }
+        
+            x += dx;
+            y += dy;
+        
+            if (gameStarted) {
+                requestAnimationFrame(draw);
+            }
+        }
+
+        function gameOver() {
+            gameStarted = false;
+            document.getElementById("startMessage").style.display = "block";
+            document.getElementById("exit").style.display = "block";
+            // 추가적으로 게임 오버 메시지를 띄우고 필요한 동작을 수행
+        }
+
+        
+        function sendToGoogleSheets() {
+            var company = document.getElementById("company").value.trim();
+            var employeeId = document.getElementById("employeeId").value.trim();
+            var name = document.getElementById("name").value.trim();
+        
+            // 입력 필드가 비어있는지 확인
+            if (company === "" || employeeId === "" || name === "") {
+                alert("모든 정보를 입력해 주세요."); // 경고 메시지 표시
+                return; // 함수 종료
+            }
+        
+            var elapsedTime = localStorage.getItem("elapsedTime");
+            var participationTime = new Date().toLocaleString(); // 참여 시간 생성
+        
+            var data = {
+                company: company,
+                employeeId: employeeId,
+                name: name,
+                elapsedTime: elapsedTime,
+                participationTime: participationTime // 참여 시간을 데이터에 추가
+            };
+        
+            // 로딩 스크린 표시
+            showLoadingScreen();            
+        
+            fetch('https://script.google.com/macros/s/AKfycbyc68W55GXQdwpSuL0yTe__d-4YbvgkliafU0OUNbrrzkmBfhSkwfGPLz22WlN_HZtvRw/exec', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8",
+                },
+                body: JSON.stringify(data),
+                mode: 'cors'
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Google Sheets 전송 성공:', response);
+                    alert('이벤트 응모가 완료되었습니다.');
+                } else {
+                    console.error('Google Sheets 전송 에러:', response);
+                    alert('이벤트 응모 중 오류가 발생했습니다.');
+                }
+            })
+            .catch((error) => {
+                console.error('Google Sheets 전송 에러:', error);
+                alert('이벤트 응모 중 오류가 발생했습니다.');
+            })
+            .finally(() => {
+                saveLocalRanking(data);
+        
+                gamecount++; // 게임 카운트 증가
+                console.log('Game count:', gamecount);
+                
+                // 폼 입력 필드 초기화
+                document.getElementById("company").value = "";
+                document.getElementById("employeeId").value = "";
+                document.getElementById("name").value = "";
+        
+                // 폼과 메시지 표시 업데이트
+                document.getElementById("formContainer").style.display = "none";
+                document.getElementById("message").style.display = "block";
+        
+                document.getElementById("gameCanvas").style.display = "none";
+                document.getElementById("startMessage").style.display = "block";
+                document.getElementById("exit").style.display = "block";
+                
+                // 4초 딜레이 후 로딩 스크린 숨기고 랭킹 보드 표시
+                setTimeout(() => {
+                    hideLoadingScreen();
+                    displayLocalRankingBoard();
+                }, 4000); // 4000 밀리초 = 4초
+            });
+        }
+
+
+
+        function getLocalRankings() {
+            var rankings = JSON.parse(localStorage.getItem('rankings')) || [];
+            return rankings;
+        }
+
+        function saveLocalRanking(newEntry) {
+            var rankings = getLocalRankings();
+            rankings.push(newEntry);
+            rankings.sort(function(a, b) {
+                return a.elapsedTime - b.elapsedTime;
+            });
+            rankings = rankings.slice(0, 5);
+            localStorage.setItem('rankings', JSON.stringify(rankings));
+        }
+
+        
+        function displayLocalRankingBoard() {
+            // 로딩 화면을 표시
+            var loadingScreen2 = document.getElementById("loadingScreen2");
+            loadingScreen2.style.display = "flex";
+            
+            fetch('https://script.google.com/macros/s/AKfycbyc68W55GXQdwpSuL0yTe__d-4YbvgkliafU0OUNbrrzkmBfhSkwfGPLz22WlN_HZtvRw/exec', {
+                mode: 'cors'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data); // 받아온 데이터를 콘솔에 출력하여 확인합니다.
+                var rankingBoard = document.getElementById("rankingBoard");
+                rankingBoard.style.display = "block";
+                rankingBoard.innerHTML = "<h2>🏆게임 랭킹🏆</h2>";
+                // 데이터를 처리할 때 첫 번째 항목을 제거한 후 처리합니다.
+                data.slice(0).forEach((entry, index) => {
+                    var entryElement = document.createElement("div");
+                    entryElement.className = "rank";
+                    if (index === 0) {
+                        entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: gold;">1등🥇 ${entry.name} (사번: ${entry.employeeId})</span><span class="time" style="font-weight:bold; color: gold;">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    } else if (index === 1) {
+                        entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: silver;">2등🥈 ${entry.name} (사번: ${entry.employeeId})</span><span class="time" style="font-weight:bold; color: silver;">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    } else if (index === 2) {
+                        entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: bronze;">3등🥉 ${entry.name} (사번: ${entry.employeeId})</span><span class="time" style="font-weight:bold; color: bronze;">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    } else if (index === 3) {
+                        entryElement.innerHTML = `<span class="name">4등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    } else if (index === 4) {
+                        entryElement.innerHTML = `<span class="name">5등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    } else if (index === 5) {
+                        entryElement.innerHTML = `<span class="name">6등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    } else if (index === 6) {
+                        entryElement.innerHTML = `<span class="name">7등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    }
+                    rankingBoard.appendChild(entryElement);
+                });
+            })
+            .finally(() => {
+                // 로딩 화면을 숨김
+                loadingScreen2.style.display = "none";
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                // 로딩 화면을 숨김 (오류 발생 시에도)
+                loadingScreen2.style.display = "none";
+            });
+        }
+
+        
+
+    </script>
+</body>
+</html>
