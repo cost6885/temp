@@ -504,38 +504,40 @@
             audio.pause();
             audio.currentTime = 0;  // 재생 위치를 처음으로 돌림
         }            
-        
+                
         function prapare() {
             document.getElementById("gameDescription").style.display = 'none';
             document.getElementById("formContainer").style.display = "none";
             document.getElementById("message").style.display = "none";
             document.getElementById("gameCanvas").style.display = "none";
-            document.getElementById("rankingBoard").style.display = "block";  // 랭킹 보드 표시
             document.getElementById("startMessage").style.display = "none";
             document.getElementById("prepare").style.display = "none";
             document.getElementById("exit").style.display = "none";
             document.getElementById("characterSelection").style.display = "block";
             document.getElementById("difficultySelection").style.display = "block";
-        
+            
             // 선택 상태 초기화
             characterSelected = false;
             difficultySelected = false;
-        
-            // 로컬 랭킹 보드를 표시
-            displayLocalRankingBoard();  // 랭킹 보드를 표시하는 함수 호출
-        
-            // 랭킹 보드의 높이에 따라 characterSelection과 difficultySelection의 위치를 조정
-            var rankingBoard = document.getElementById("rankingBoard");
-            var characterSelection = document.getElementById("characterSelection");
-            var difficultySelection = document.getElementById("difficultySelection");
-        
-            // 랭킹 보드의 높이만큼 margin-top을 설정
-            var rankingBoardHeight = rankingBoard.offsetHeight;
-            characterSelection.style.marginTop = (rankingBoardHeight + 20) + "px"; // 여유 공간 포함
-            difficultySelection.style.marginTop = "10px"; // characterSelection 바로 아래에 위치
-        
+            
+            // 랭킹 보드를 표시하는 함수 호출
+            displayLocalRankingBoard();
+            
+            // 랭킹 보드의 높이 계산 및 characterSelection, difficultySelection 위치 조정
+            setTimeout(function() {
+                var rankingBoard = document.getElementById("rankingBoard");
+                var characterSelection = document.getElementById("characterSelection");
+                var difficultySelection = document.getElementById("difficultySelection");
+                
+                // 랭킹 보드의 높이만큼 margin-top을 설정
+                var rankingBoardHeight = rankingBoard.offsetHeight;
+                characterSelection.style.marginTop = (rankingBoardHeight + 20) + "px"; // 여유 공간 포함
+                difficultySelection.style.marginTop = "10px"; // characterSelection 바로 아래에 위치
+            }, 100); // 100ms 딜레이 후 실행
+            
             checkStartCondition();
         }
+
 
 
         function selectCharacter(src) {
