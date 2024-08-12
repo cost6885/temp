@@ -1059,7 +1059,7 @@
             rankingBoard.style.top = "30%"; // 랭킹 보드를 화면에서 30% 위치로 이동       
             document.getElementById("rankmore").style.display = "block";
                         
-            fetch('https://script.google.com/macros/s/AKfycbziqFcQyqGTbo5VdpARVrWRV8cpwir0lXejWXsjZy-wT5nxsQf4qmzUvV2u8ljanRqF6w/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbzoGxroIq6g9TqnFwDt2eQjR2zkFYF_2gEr5lFBtm8FlCTNtqvZ3CoOn4qOcyfnSl7hyQ/exec', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "text/plain;charset=utf-8",
@@ -1150,27 +1150,18 @@
                 data.result.forEach((entry, index) => {
                     var entryElement = document.createElement("div");
                     entryElement.className = "rank";
+                    var rankText = `${entry.name} (사번: ${entry.employeeId}) - ${entry.elapsedTime.toFixed(2)}초 난이도: ${entry.difficulty}`;
+                    
                     if (index === 0) {
-                        entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: gold;">1등🥇 ${entry.name} (사번: ${entry.employeeId})</span><span class="time" style="font-weight:bold; color: gold;">${entry.elapsedTime.toFixed(2)}초</span>`;
+                        entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: gold;">1등🥇 ${rankText}</span>`;
                     } else if (index === 1) {
-                        entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: silver;">2등🥈 ${entry.name} (사번: ${entry.employeeId})</span><span class="time" style="font-weight:bold; color: silver;">${entry.elapsedTime.toFixed(2)}초</span>`;
+                        entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: silver;">2등🥈 ${rankText}</span>`;
                     } else if (index === 2) {
-                        entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: bronze;">3등🥉 ${entry.name} (사번: ${entry.employeeId})</span><span class="time" style="font-weight:bold; color: bronze;">${entry.elapsedTime.toFixed(2)}초</span>`;
-                    } else if (index === 3) {
-                        entryElement.innerHTML = `<span class="name">4등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
-                    } else if (index === 4) {
-                        entryElement.innerHTML = `<span class="name">5등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
-                    } else if (index === 5) {
-                        entryElement.innerHTML = `<span class="name">6등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
-                    } else if (index === 6) {
-                        entryElement.innerHTML = `<span class="name">7등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
-                    } else if (index === 7) {
-                        entryElement.innerHTML = `<span class="name">8등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
-                    } else if (index === 8) {
-                        entryElement.innerHTML = `<span class="name">9등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
-                    } else if (index === 9) {
-                        entryElement.innerHTML = `<span class="name">10등🙄 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
+                        entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: bronze;">3등🥉 ${rankText}</span>`;
+                    } else {
+                        entryElement.innerHTML = `<span class="name">${index + 1}등🙄 ${rankText}</span>`;
                     }
+        
                     rankingBoard.appendChild(entryElement);
                 });
         
@@ -1235,7 +1226,7 @@
             var loadingScreen2 = document.getElementById("loadingScreen2");
             loadingScreen2.style.display = "flex";
             
-            fetch('https://script.google.com/macros/s/AKfycbziqFcQyqGTbo5VdpARVrWRV8cpwir0lXejWXsjZy-wT5nxsQf4qmzUvV2u8ljanRqF6w/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbzoGxroIq6g9TqnFwDt2eQjR2zkFYF_2gEr5lFBtm8FlCTNtqvZ3CoOn4qOcyfnSl7hyQ/exec', {
                 mode: 'cors'
             })
             .then(response => {
@@ -1253,7 +1244,7 @@
                 data.entire.forEach((entry, index) => {
                     var entryElement = popup.document.createElement("div");
                     entryElement.className = "rank";
-                    entryElement.innerHTML = `<span class="name">${index + 1}등 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초</span>`;
+                    entryElement.innerHTML = `<span class="name">${index + 1}등 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초 난이도: ${entry.difficulty}</span>`;
                     rankingBoard.appendChild(entryElement);
                 });
             })
