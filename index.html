@@ -20,7 +20,7 @@
         }
 
         #gameContainer {
-            display: flex;
+            display: none; /* 초기에는 숨김 */
             flex-direction: column; /* 요소들을 위아래로 배치 */
             align-items: center;
             gap: 20px; /* 각 요소 사이의 간격 설정 */
@@ -570,7 +570,12 @@
             document.querySelectorAll('.character-option').forEach(el => el.classList.remove('selected'));
             document.querySelectorAll('.difficulty-option').forEach(el => el.classList.remove('selected'));
             
-        
+            // Flexbox 적용하여 표시
+            var gameContainer = document.getElementById("gameContainer");
+            gameContainer.style.display = "flex";
+            gameContainer.style.position = "relative";
+            gameContainer.style.top = "0px"; // 초기화
+            
             // // gameContainer를 아래로 내리기 위한 코드 추가
             // var gameContainer = document.getElementById("gameContainer");
             // gameContainer.style.position = "relative"; // position 속성 설정
