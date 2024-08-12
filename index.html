@@ -543,12 +543,14 @@
             var startButtonContainer = document.getElementById("startButtonContainer");
             startButtonContainer.style.position = "absolute"; // 위치 설정을 위해 position 속성 추가
             startButtonContainer.style.top = "60%"; // 시작 버튼을 75%에서 60%로 15% 위로 이동
+            startButtonContainer.style.transform = "translateX(-50%)"; // Y 축 이동 제거
             
             // 랭킹 보드를 표시하는 함수 호출
             displayLocalRankingBoard();           
             
             checkStartCondition();
         }
+
 
 
         function selectCharacter(src) {
