@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>개발서버
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>너구리를 가져와</title>
@@ -20,14 +20,10 @@
         }
 
         #gameContainer {
-            display: none; /* 초기에는 숨김 */
-            flex-direction: column; /* 요소들을 위아래로 배치 */
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 20px; /* 각 요소 사이의 간격 설정 */
-            position: relative;
-            top: 0;
         }
-
 
         
         #loadingScreen, #loadingScreen2 {
@@ -246,14 +242,13 @@
         .game-start {
             margin-bottom: 32px; /* 게임 시작 문구 아래에 여백 추가 */
         }
-        
         .ranking-section {
             margin-top: 16px; 
         }
-        
         #characterSelection, #difficultySelection {
-            width: 100%; /* 요소가 화면 전체 너비를 차지하게 설정 */
+            display: none;
             text-align: center;
+            margin-top: 20px;
         }
 
         .character-option {
@@ -262,8 +257,8 @@
             border: 2px solid transparent;
             border-radius: 10px;
             transition: border-color 0.3s;
-            width: 100px;
-            height: auto;
+            width: 100px; /* 이미지 너비 조정 */
+            height: auto; /* 자동 높이 조정 */
         }
 
         .character-option:hover, .difficulty-option:hover {
@@ -290,7 +285,7 @@
             justify-content: center; /* 중앙 정렬 */
             gap: 10px; /* 버튼 사이의 간격 */
         }
-        
+
         #challengeButton {            
             background-color: red; /* 시뻘건색 */
         }
@@ -319,12 +314,34 @@
     </div>
     
     <div id="formContainer">
-        <label>회사: <input type="text" id="company"></label><br>
+        <label>회사: 
+            <select id="company">
+                <option value="">회사를 선택하세요</option>
+                <option value="농심">농심</option>
+                <option value="농심태경">농심태경</option>
+                <option value="율촌화학">율촌화학</option>
+                <option value="메가마트">메가마트</option>
+                <option value="농심엔지니어링">농심엔지니어링</option>
+                <option value="엔디에스">엔디에스</option>
+                <option value="농심미분">농심미분</option>
+                <option value="호텔농심">호텔농심</option>
+                <option value="농심홀딩스">농심홀딩스</option>
+                <option value="농심캐피탈">농심캐피탈</option>
+                <option value="이스턴웰스">이스턴웰스</option>
+                <option value="뉴테라닉스">뉴테라닉스</option>
+                <option value="엔에스아리아">엔에스아리아</option>
+                <option value="농심개발">농심개발</option>
+                <option value="율촌재단">율촌재단</option>
+                <option value="캐처스">캐처스</option>
+                <option value="농심이스포츠">농심이스포츠</option>
+            </select>
+        </label><br>
         <label>사번: <input type="text" id="employeeId"></label><br>
         <label>이름: <input type="text" id="name"></label><br>
         <button class="sendform" onclick="sendToGoogleSheets()">응모하기</button>
         <button class="sendform" onclick="prapare()">다시하기</button>
     </div>
+
     
     <div id="loadingScreen">
         <div>
@@ -570,16 +587,11 @@
             document.querySelectorAll('.character-option').forEach(el => el.classList.remove('selected'));
             document.querySelectorAll('.difficulty-option').forEach(el => el.classList.remove('selected'));
             
-            // Flexbox 적용하여 표시
+        
+            // gameContainer를 아래로 내리기 위한 코드 추가
             var gameContainer = document.getElementById("gameContainer");
-            gameContainer.style.display = "flex";
-            gameContainer.style.position = "relative";
-            gameContainer.style.top = "0px"; // 초기화
-            
-            // // gameContainer를 아래로 내리기 위한 코드 추가
-            // var gameContainer = document.getElementById("gameContainer");
-            // gameContainer.style.position = "relative"; // position 속성 설정
-            // gameContainer.style.top = "300px"; // 아래로 300px 이동
+            gameContainer.style.position = "relative"; // position 속성 설정
+            gameContainer.style.top = "300px"; // 아래로 300px 이동
         
             // 랭킹 보드의 위치를 위로 올리기
             var rankingBoard = document.getElementById("rankingBoard");
@@ -1016,7 +1028,7 @@
             var company = document.getElementById("company").value.trim();
             var employeeId = document.getElementById("employeeId").value.trim();
             var name = document.getElementById("name").value.trim();
-        
+            
             // 입력 필드가 비어있는지 확인
             if (company === "" || employeeId === "" || name === "") {
                 alert("모든 정보를 입력해 주세요."); // 경고 메시지 표시
@@ -1026,23 +1038,27 @@
             var elapsedTime = localStorage.getItem("elapsedTime");
             var participationTime = new Date().toLocaleString(); // 참여 시간 생성
         
+            // 기존에 선택된 난이도(difficulty)를 가져옴
+            var selectedDifficulty = difficulty; // 이미 전역변수로 설정된 난이도 값을 사용
+        
             var data = {
                 company: company,
                 employeeId: employeeId,
                 name: name,
                 elapsedTime: elapsedTime,
-                participationTime: participationTime // 참여 시간을 데이터에 추가
+                participationTime: participationTime, // 참여 시간 추가
+                difficulty: selectedDifficulty // 선택된 난이도를 데이터에 추가
             };
         
             // 로딩 스크린 표시
             showLoadingScreen();            
-
+        
             // 랭킹 보드의 위치를 위로 올리기
             var rankingBoard = document.getElementById("rankingBoard");
             rankingBoard.style.position = "absolute"; // 위치 설정을 위해 position 속성 추가
             rankingBoard.style.top = "30%"; // 랭킹 보드를 화면에서 30% 위치로 이동       
             document.getElementById("rankmore").style.display = "block";
-                    
+                        
             fetch('https://script.google.com/macros/s/AKfycbziqFcQyqGTbo5VdpARVrWRV8cpwir0lXejWXsjZy-wT5nxsQf4qmzUvV2u8ljanRqF6w/exec', {
                 method: 'POST',
                 headers: {
