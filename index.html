@@ -21,9 +21,13 @@
 
         #gameContainer {
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* 요소들을 위아래로 배치 */
             align-items: center;
+            gap: 20px; /* 각 요소 사이의 간격 설정 */
+            position: relative;
+            top: 0;
         }
+
 
         
         #loadingScreen, #loadingScreen2 {
@@ -242,13 +246,14 @@
         .game-start {
             margin-bottom: 32px; /* 게임 시작 문구 아래에 여백 추가 */
         }
+        
         .ranking-section {
             margin-top: 16px; 
         }
+        
         #characterSelection, #difficultySelection {
-            display: none;
+            width: 100%; /* 요소가 화면 전체 너비를 차지하게 설정 */
             text-align: center;
-            margin-top: 20px;
         }
 
         .character-option {
@@ -257,8 +262,8 @@
             border: 2px solid transparent;
             border-radius: 10px;
             transition: border-color 0.3s;
-            width: 100px; /* 이미지 너비 조정 */
-            height: auto; /* 자동 높이 조정 */
+            width: 100px;
+            height: auto;
         }
 
         .character-option:hover, .difficulty-option:hover {
@@ -285,7 +290,7 @@
             justify-content: center; /* 중앙 정렬 */
             gap: 10px; /* 버튼 사이의 간격 */
         }
-
+        
         #challengeButton {            
             background-color: red; /* 시뻘건색 */
         }
@@ -566,10 +571,10 @@
             document.querySelectorAll('.difficulty-option').forEach(el => el.classList.remove('selected'));
             
         
-            // gameContainer를 아래로 내리기 위한 코드 추가
-            var gameContainer = document.getElementById("gameContainer");
-            gameContainer.style.position = "relative"; // position 속성 설정
-            gameContainer.style.top = "300px"; // 아래로 300px 이동
+            // // gameContainer를 아래로 내리기 위한 코드 추가
+            // var gameContainer = document.getElementById("gameContainer");
+            // gameContainer.style.position = "relative"; // position 속성 설정
+            // gameContainer.style.top = "300px"; // 아래로 300px 이동
         
             // 랭킹 보드의 위치를 위로 올리기
             var rankingBoard = document.getElementById("rankingBoard");
