@@ -132,9 +132,9 @@
             text-align: center;
             font-size: 24px;
             position: absolute;
-            top: 75%;
+            top: 75%; /* 원하는 위치로 조정 가능 */
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%); /* X 축으로만 중앙 정렬 */
             padding: 10px;
             border-radius: 10px;
             background-color: rgba(0, 0, 0, 0.7);
@@ -244,6 +244,7 @@
         #startButtonContainer {
             text-align: center;
             margin-top: 20px;
+            position: relative; /* 컨테이너를 기준으로 버튼 위치를 조정 */
         }
         
         #audioControls {
@@ -349,8 +350,8 @@
     </div>
 
     <div id="audioControls">
-        <button onclick="pauseAudio()">BGM OFF🔈</button>
         <button onclick="playAudio()">BGM ON🔊</button>        
+        <button onclick="pauseAudio()">BGM OFF🔈</button>
     </div>
 
     <!-- BGM 추가 -->
