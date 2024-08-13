@@ -618,8 +618,7 @@
             document.getElementById("prepare").style.display = "none";
             document.getElementById("exit").style.display = "none";
             document.getElementById("characterSelection").style.display = "block";
-            document.getElementById("difficultySelection").style.display = "block";
-            document.getElementById("rankmore").style.display = "block";
+            document.getElementById("difficultySelection").style.display = "block";            
             
             // 선택 상태 초기화
             characterSelected = false;
@@ -644,6 +643,7 @@
             if (rankingBoard.style.display !== "block") {
                 // 랭킹 보드를 표시하는 함수 호출
                 displayLocalRankingBoard();
+                document.getElementById("rankmore").style.display = "block";
                 rankingBoard.style.display = "block"; // 랭킹 보드를 항상 표시
             }           
                         
@@ -1145,6 +1145,7 @@
                     hideLoadingScreen();
                     showMessage(true);
                     displayLocalRankingBoard();
+                    document.getElementById("rankmore").style.display = "block";
                 }, 4000); // 4000 밀리초 = 4초
             });
         }
