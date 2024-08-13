@@ -215,7 +215,7 @@
             font-family: 'Nanum Gothic', 'Malgun Gothic', sans-serif;
             line-height: 1.6; /* 줄 간격 조절 */
             width: 80%; /* 화면 크기의 80%로 설정 */
-            max-width: 500px; /* 최대 가로 크기 설정 (예: 1000px) */
+            max-width: 600px; /* 최대 가로 크기 설정 (예: 1000px) */
         }
         
         .styled-button {
@@ -1149,7 +1149,7 @@
                 data.result.forEach((entry, index) => {
                     var entryElement = document.createElement("div");
                     entryElement.className = "rank";
-                    var rankText = `${entry.name} (사번: ${entry.employeeId}) - ${entry.elapsedTime.toFixed(2)}초 난이도: ${entry.difficulty}`;
+                    var rankText = `${entry.name} (사번: ${entry.employeeId}) - ${entry.elapsedTime.toFixed(2)}초 난이도: ${entry.difficulty || 'N/A'}`;
                     
                     if (index === 0) {
                         entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: gold;">1등🥇 ${rankText}</span>`;
@@ -1164,8 +1164,7 @@
                     rankingBoard.appendChild(entryElement);
                 });
         
-                // 전체 기록을 'entire'에서 처리 (필요 시)
-                console.log("전체 최고 기록:", data.entire); // entire 데이터를 콘솔에 출력하여 확인하거나 추가 처리할 수 있습니다.
+                console.log("전체 최고 기록:", data.entire);
             })
             .finally(() => {
                 // 로딩 화면을 숨김
@@ -1177,6 +1176,7 @@
                 loadingScreen2.style.display = "none";
             });
         }
+
 
 
         function rankmore() {
