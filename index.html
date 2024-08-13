@@ -1158,7 +1158,7 @@
                 data.result.forEach((entry, index) => {
                     var entryElement = document.createElement("div");
                     entryElement.className = "rank";
-                    var rankText = `${entry.name} (사번: ${entry.employeeId}) - ${entry.elapsedTime.toFixed(2)}초 난이도: ${entry.difficulty || 'N/A'}`;
+                    var rankText = `${entry.name} (사번: ${entry.employeeId}) - ${entry.elapsedTime.toFixed(2)}초 ${entry.difficulty || 'N/A'}`;
                     
                     if (index === 0) {
                         entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: gold;">1등🥇 ${rankText}</span>`;
@@ -1252,7 +1252,7 @@
                 data.entire.forEach((entry, index) => {
                     var entryElement = popup.document.createElement("div");
                     entryElement.className = "rank";
-                    entryElement.innerHTML = `<span class="name">${index + 1}등 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초 난이도: ${entry.difficulty}</span>`;
+                    entryElement.innerHTML = `<span class="name">${index + 1}등 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초 ${entry.difficulty}</span>`;
                     rankingBoard.appendChild(entryElement);
                 });
             })
