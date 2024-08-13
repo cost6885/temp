@@ -94,7 +94,7 @@
         
         #buttonContainer {
             position: absolute;
-            top: 70%;
+            top: 61%;
             left: 50%;
             transform: translate(-50%, -50%);
             display: flex;
@@ -326,6 +326,18 @@
             box-sizing: border-box;
         }
 
+
+        /* 특수 성공 상태일 때의 스타일 */
+        .success-drawn {
+            background-color: #28a745; /* 성공을 나타내는 녹색 배경 */
+            top: 69%;
+            color: white; /* 텍스트 색상 */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* 그림자를 추가하여 떠 있는 느낌을 줍니다 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 텍스트에 그림자를 추가하여 입체감을 줍니다 */
+            border: 2px solid #1e7e34; /* 약간 어두운 녹색 테두리를 추가 */
+            transition: all 0.3s ease; /* 부드러운 애니메이션 */
+        }
+        
                 
     </style>
 </head>
@@ -1131,6 +1143,7 @@
                 // 4초 딜레이 후 로딩 스크린 숨기고 랭킹 보드 표시
                 setTimeout(() => {
                     hideLoadingScreen();
+                    showMessage(true);
                     displayLocalRankingBoard();
                 }, 4000); // 4000 밀리초 = 4초
             });
@@ -1289,7 +1302,18 @@
         }
 
 
+        function showMessage(success = false) {
+            var messageElement = document.getElementById('message');
+            
+            if (success) {
+                messageElement.classList.add('success-drawn');
+            } else {
+                messageElement.classList.remove('success-drawn');
+            }
         
+            messageElement.style.display = 'block';
+            messageElement.innerText = success ? "성공! 작업이 완료되었습니다." : "일반 메시지 내용";
+        }
         
 
     </script>
