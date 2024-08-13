@@ -215,7 +215,7 @@
             font-family: 'Nanum Gothic', 'Malgun Gothic', sans-serif;
             line-height: 1.6; /* 줄 간격 조절 */
             width: 80%; /* 화면 크기의 80%로 설정 */
-            max-width: 600px; /* 최대 가로 크기 설정 (예: 1000px) */
+            max-width: 500px; /* 최대 가로 크기 설정 (예: 1000px) */
         }
         
         .styled-button {
@@ -1158,7 +1158,7 @@
                 data.result.forEach((entry, index) => {
                     var entryElement = document.createElement("div");
                     entryElement.className = "rank";
-                    var rankText = `${entry.name} (사번: ${entry.employeeId}) - ${entry.elapsedTime.toFixed(2)}초 ${entry.difficulty || 'N/A'}`;
+                    var rankText = `${entry.name} (${entry.employeeId}) - ${entry.elapsedTime.toFixed(2)}초 ${entry.difficulty || 'N/A'}`;
                     
                     if (index === 0) {
                         entryElement.innerHTML = `<span class="name" style="font-weight:bold; color: gold;">1등🥇 ${rankText}</span>`;
@@ -1252,7 +1252,7 @@
                 data.entire.forEach((entry, index) => {
                     var entryElement = popup.document.createElement("div");
                     entryElement.className = "rank";
-                    entryElement.innerHTML = `<span class="name">${index + 1}등 ${entry.name} (사번: ${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초 ${entry.difficulty}</span>`;
+                    entryElement.innerHTML = `<span class="name">${index + 1}등 ${entry.name} (${entry.employeeId})</span><span class="time">${entry.elapsedTime.toFixed(2)}초 ${entry.difficulty}</span>`;
                     rankingBoard.appendChild(entryElement);
                 });
             })
