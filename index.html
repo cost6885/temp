@@ -644,8 +644,7 @@
             // 랭킹 보드가 이미 표시되어 있는지 확인
             if (rankingBoard.style.display !== "block") {
                 // 랭킹 보드를 표시하는 함수 호출
-                displayLocalRankingBoard();
-                document.getElementById("rankmore").style.display = "block";
+                displayLocalRankingBoard();                
                 rankingBoard.style.display = "block"; // 랭킹 보드를 항상 표시
             }           
                         
@@ -1100,7 +1099,7 @@
             var rankingBoard = document.getElementById("rankingBoard");
             rankingBoard.style.position = "absolute"; // 위치 설정을 위해 position 속성 추가
             rankingBoard.style.top = "30%"; // 랭킹 보드를 화면에서 30% 위치로 이동       
-            document.getElementById("rankmore").style.display = "block";
+            
                         
             fetch('https://script.google.com/macros/s/AKfycbzFJQwTMNssXrzPP-B85taN0uL3lJajYrXqf7mokzBLbPu88UmTgVzNN6YvFH2jY26Ctw/exec', {
                 method: 'POST',
@@ -1146,8 +1145,7 @@
                 setTimeout(() => {
                     hideLoadingScreen();
                     showMessage(true);
-                    displayLocalRankingBoard();
-                    document.getElementById("rankmore").style.display = "block";
+                    displayLocalRankingBoard();                    
                 }, 4000); // 4000 밀리초 = 4초
             });
         }
@@ -1174,6 +1172,7 @@
             // 로딩 화면을 표시
             var loadingScreen2 = document.getElementById("loadingScreen2");
             loadingScreen2.style.display = "flex";
+            document.getElementById("rankmore").style.display = "block";
             
             fetch('https://script.google.com/macros/s/AKfycbzFJQwTMNssXrzPP-B85taN0uL3lJajYrXqf7mokzBLbPu88UmTgVzNN6YvFH2jY26Ctw/exec', {
                 mode: 'cors'
