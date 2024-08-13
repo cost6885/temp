@@ -330,11 +330,13 @@
         /* 특수 성공 상태일 때의 스타일 */
         .success-drawn {
             background-color: #28a745; /* 성공을 나타내는 녹색 배경 */
-            top: 69%;
+            position: absolute; /* or relative, depending on your layout needs */
+            top: 70%; /* 위치 조정 */
+            left: 50%; /* 수평 중앙 정렬을 위해 추가 */
+            transform: translateX(-50%); /* 수평 중앙 정렬을 위해 추가 */
             color: white; /* 텍스트 색상 */
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* 그림자를 추가하여 떠 있는 느낌을 줍니다 */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 텍스트에 그림자를 추가하여 입체감을 줍니다 */
-            border: 2px solid #1e7e34; /* 약간 어두운 녹색 테두리를 추가 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 텍스트에 그림자를 추가하여 입체감을 줍니다 */            
             transition: all 0.3s ease; /* 부드러운 애니메이션 */
         }
         
