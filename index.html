@@ -379,9 +379,9 @@
         <div id="difficultySelection">
             <h3>난이도를 선택하세요</h3>
             <div class="difficulty-container">
-                <button class="difficulty-option styled-button" onclick="selectDifficulty('easy')">쉬움</button>
-                <button class="difficulty-option styled-button" onclick="selectDifficulty('hard')">어려움</button>
-                <button id="challengeButton" class="difficulty-option styled-button" style="display: none;" onclick="selectDifficulty('challenge')">도전</button>
+                <button class="difficulty-option styled-button" onclick="selectDifficulty('쉬움')">쉬움</button>
+                <button class="difficulty-option styled-button" onclick="selectDifficulty('어려움')">어려움</button>
+                <button id="challengeButton" class="difficulty-option styled-button" style="display: none;" onclick="selectDifficulty('도전')">도전</button>
             </div>
         </div>
     </div>
@@ -867,10 +867,10 @@
                     dx = speed * Math.sin(angle);
                     dy = -speed * Math.cos(angle);
         
-                    if (difficulty === 'hard') {
+                    if (difficulty === '어려움') {
                         adjustSpeed(10, 19, 40);
-                    } else if (difficulty === 'challenge') {
-                        adjustSpeed(40, 76, 160); // 최소 및 최대 속도를 hard의 4배로 설정
+                    } else if (difficulty === '도전') {
+                        adjustSpeed(40, 76, 160); // 최소 및 최대 속도를 어려움의 4배로 설정
                     } else {
                         adjustSpeed(5, 7, 0); // 쉬움 난이도에서는 속도를 줄이고 각도 변경을 하지 않습니다.
                     }
