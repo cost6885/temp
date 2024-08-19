@@ -533,29 +533,33 @@
             var paddleImage = new Image();    
             paddleImage.src = "https://github.com/cost6885/tbon2/raw/main/image/dasima.png";
         
-            function selectCharacter(characterId) {
-                const selectedCharacter = characters[characterId];
+        function selectCharacter(characterId) {
+            const selectedCharacter = characters[characterId];
         
-                // Set ball image based on selected character
-                ballImage.src = selectedCharacter.imageSrc;
+            // Set ball image based on selected character
+            ballImage.src = selectedCharacter.imageSrc;
         
-                // Set paddle image based on selected character
-                paddleImage.src = selectedCharacter.paddleImageSrc;
+            // Set paddle image based on selected character
+            paddleImage.src = selectedCharacter.paddleImageSrc;
         
+            // Character selection state update
+            characterSelected = true;
+            document.querySelectorAll('.character-option').forEach(el => el.classList.remove('selected'));
+            event.target.classList.add('selected');
+        
+            // Wait for the paddle image to load before starting the game
+            paddleImage.onload = () => {
                 // Set game settings based on selected character
                 gameSettings.itemFallMultiplier = selectedCharacter.itemFallMultiplier;
                 gameSettings.initialMissingBricks = selectedCharacter.initialMissingBricks;
                 gameSettings.ballSizeIncrease = selectedCharacter.ballSizeIncrease;
                 gameSettings.paddleWidthIncrease = selectedCharacter.paddleWidthIncrease;
         
-                // Character selection state update
-                characterSelected = true;
-                document.querySelectorAll('.character-option').forEach(el => el.classList.remove('selected'));
-                event.target.classList.add('selected');
-        
                 // Check start condition
                 checkStartCondition();
-            }
+            };
+        }
+
 
 
         document.addEventListener("DOMContentLoaded", function() {
