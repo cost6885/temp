@@ -719,6 +719,12 @@
             paddleImage.src = "https://github.com/cost6885/tbon2/raw/main/image/dasima.png"; // 기본 패들 이미지로 초기화
             ballImage.src = defaultCharacter; // 기본 캐릭터 이미지로 초기화
         
+            // gameSettings 리셋
+            gameSettings.itemFallMultiplier = 1.0;
+            gameSettings.initialMissingBricks = 0;
+            gameSettings.ballSizeIncrease = 0; // 공 크기 증가 초기화
+            gameSettings.paddleWidthIncrease = 0;
+        
             // gameContainer를 아래로 내리기 위한 코드
             var gameContainer = document.getElementById("gameContainer");
             gameContainer.style.position = "relative"; 
@@ -734,9 +740,10 @@
                 displayLocalRankingBoard();                
                 rankingBoard.style.display = "block";
             }           
-            
+        
             checkStartCondition();
         }
+
 
 
 
