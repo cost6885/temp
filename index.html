@@ -518,7 +518,7 @@
             var brickRowCount = 2, brickColumnCount = 6, brickWidth = 100, brickHeight = 108, brickPadding = 0, brickOffsetTop = 20, brickOffsetLeft = 20;
             var bricks = [], score = 0, gameStarted = false, startTime, elapsedTime;
             var brickImage, image, canvasImage;
-            var enlargedBallRadius = ballRadius * 10;
+            var enlargedBallRadius = ballRadius * 5;
             var characterSelected = false;
             var difficultySelected = false;
             var difficulty = 'easy';
@@ -713,7 +713,7 @@
         
             // 게임 기본 설정으로 리셋
             ballRadius = 10; // 공 크기 초기화
-            enlargedBallRadius = ballRadius; // enlargedBallRadius 초기화
+            enlargedBallRadius = ballRadius * 5; // enlargedBallRadius 초기화
             dx = 6; // 공 속도 초기화
             dy = -6;
             paddleWidth = 133; // 패들 너비 초기화
@@ -1081,21 +1081,25 @@
             document.getElementById('characterSelection').style.display = 'none';
             document.getElementById('difficultySelection').style.display = 'none';
             document.getElementById('rankmore').style.display = 'none';
-
+        
             var company = document.getElementById("company").value;
             var employeeId = document.getElementById("employeeId").value;
             var name = document.getElementById("name").value;
             localStorage.setItem("company", company);
             localStorage.setItem("employeeId", employeeId);
             localStorage.setItem("name", name);
-
+        
             itemCaught = false; // 특수 모드 초기화
             
-            initGame();
-            gameStarted = true;
-            startTime = Date.now();
-            draw();
+            // 패들 이미지 로드가 완료된 후에 게임을 시작하도록 함
+            paddleImage.onload = function() {
+                initGame();
+                gameStarted = true;
+                startTime = Date.now();
+                draw();
+            };
         }
+
 
 
         function sendParticipationCount() {
