@@ -815,6 +815,11 @@
             totalItems = Math.floor(Math.random() * 5) + 1; // 총 아이템 수 1~5 사이로 설정
             fallingItemData = null; // 아이템 데이터 초기화            
             console.log("Game initialized.");
+            
+            console.log(gameSettings.itemFallMultiplier = selectedCharacter.itemFallMultiplier);
+            console.log(gameSettings.initialMissingBricks = selectedCharacter.initialMissingBricks);
+            console.log(gameSettings.ballSizeIncrease = selectedCharacter.ballSizeIncrease);
+            console.log(gameSettings.paddleWidthIncrease = selectedCharacter.paddleWidthIncrease);            
         }
 
 
@@ -1096,6 +1101,11 @@
             localStorage.setItem("name", name);
         
             itemCaught = false; // 특수 모드 초기화
+
+            console.log(gameSettings.itemFallMultiplier = selectedCharacter.itemFallMultiplier);
+            console.log(gameSettings.initialMissingBricks = selectedCharacter.initialMissingBricks);
+            console.log(gameSettings.ballSizeIncrease = selectedCharacter.ballSizeIncrease);
+            console.log(gameSettings.paddleWidthIncrease = selectedCharacter.paddleWidthIncrease);            
             
             if (paddleImage.complete) {
                 // 이미지가 이미 로드된 상태라면 즉시 게임 시작
