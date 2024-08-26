@@ -946,6 +946,7 @@
                     if (bricks[randomColumn][randomRow].status === 1) {
                         bricks[randomColumn][randomRow].status = 0;
                         bricksToRemove--;
+                        score++; // 블럭 제거 시 점수 증가
                     }
                 }
                 gameSettings.initialMissingBricks = 0; // 초기 제거 작업은 한 번만 실행
@@ -972,9 +973,12 @@
                             
                             b.status = 0;
                             score++;
+                            
+                            // Check if all bricks are cleared
                             if (score == brickRowCount * brickColumnCount) {
                                 gameStarted = false;
                                 drawSuccessMessage();
+                                return; // 모든 벽돌이 제거되었으므로 함수 종료
                             }
         
                             // 아이템이 낙하 중이 아니고, itemStock이 false일 때만 새로운 아이템 생성
@@ -1019,11 +1023,11 @@
                 } else if (y + dy > canvas.height - enlargedBallRadius) {
                     gameStarted = false;
                     gameOver();
-                    successMessageShown = true;
                     return;
                 }
             }
         }
+
 
 
 
