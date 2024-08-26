@@ -987,7 +987,8 @@
         
                             // 아이템이 낙하 중이 아니고, itemStock이 false일 때만 새로운 아이템 생성
                             if (!itemFalling && !itemStock) {
-                                if (Math.random() < 0.1 * gameSettings.itemFallMultiplier) {  // 캐릭터에 따라 아이템 낙하 확률 변경
+                                let dropChance = 0.1 * gameSettings.itemFallMultiplier;
+                                if (Math.random() < dropChance) {
                                     startItemFall(b.x, b.y);
                                 }
                             }
@@ -1099,7 +1100,7 @@
         
             itemCaught = false; // 특수 모드 초기화
 
-            console.log('gameSettings.itemFallMultiplier');         
+            console.log("Item Fall Multiplier:", gameSettings.itemFallMultiplier);
             
             if (paddleImage.complete) {
                 // 이미지가 이미 로드된 상태라면 즉시 게임 시작
