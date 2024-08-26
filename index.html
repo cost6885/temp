@@ -1091,13 +1091,21 @@
         
             itemCaught = false; // 특수 모드 초기화
             
-            // 패들 이미지 로드가 완료된 후에 게임을 시작하도록 함
-            paddleImage.onload = function() {
+            if (paddleImage.complete) {
+                // 이미지가 이미 로드된 상태라면 즉시 게임 시작
                 initGame();
                 gameStarted = true;
                 startTime = Date.now();
                 draw();
-            };
+            } else {
+                // 이미지가 아직 로드되지 않았다면 onload 이벤트 설정
+                paddleImage.onload = function() {
+                    initGame();
+                    gameStarted = true;
+                    startTime = Date.now();
+                    draw();
+                };
+    }
         }
 
 
