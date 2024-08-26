@@ -547,18 +547,19 @@
             document.querySelectorAll('.character-option').forEach(el => el.classList.remove('selected'));
             event.target.classList.add('selected');
         
+            // Set game settings based on selected character
+            gameSettings.itemFallMultiplier = selectedCharacter.itemFallMultiplier;
+            gameSettings.initialMissingBricks = selectedCharacter.initialMissingBricks;
+            gameSettings.ballSizeIncrease = selectedCharacter.ballSizeIncrease;
+            gameSettings.paddleWidthIncrease = selectedCharacter.paddleWidthIncrease;
+        
             // Wait for the paddle image to load before starting the game
             paddleImage.onload = () => {
-                // Set game settings based on selected character
-                gameSettings.itemFallMultiplier = selectedCharacter.itemFallMultiplier;
-                gameSettings.initialMissingBricks = selectedCharacter.initialMissingBricks;
-                gameSettings.ballSizeIncrease = selectedCharacter.ballSizeIncrease;
-                gameSettings.paddleWidthIncrease = selectedCharacter.paddleWidthIncrease;
-        
                 // Check start condition
                 checkStartCondition();
             };
         }
+
 
 
 
@@ -700,7 +701,7 @@
             document.getElementById("prepare").style.display = "none";
             document.getElementById("exit").style.display = "none";
             document.getElementById("characterSelection").style.display = "block";
-            document.getElementById("difficultySelection").style.display = "block";            
+            document.getElementById("difficultySelection").style.display = "block";
             document.getElementById("fallingItem").style.display = "none";
         
             // 선택 상태 초기화
@@ -720,13 +721,13 @@
             paddleImage.src = "https://github.com/cost6885/tbon2/raw/main/image/dasima.png"; // 기본 패들 이미지로 초기화
             ballImage.src = defaultCharacter; // 기본 캐릭터 이미지로 초기화
         
-            // gameSettings 리셋
-            gameSettings.itemFallMultiplier = 1.0;
+            // gameSettings 리셋 (다시 하기 시 제대로 초기화되도록)
+            gameSettings.itemFallMultiplier = 1.0; // 기본값으로 초기화
             gameSettings.initialMissingBricks = 0;
             gameSettings.ballSizeIncrease = 0; // 공 크기 증가 초기화
             gameSettings.paddleWidthIncrease = 0;
         
-            // gameContainer를 아래로 내리기 위한 코드
+            // 게임 컨테이너를 아래로 내리기 위한 코드
             var gameContainer = document.getElementById("gameContainer");
             gameContainer.style.position = "relative"; 
             gameContainer.style.top = "300px"; 
@@ -740,10 +741,11 @@
             if (rankingBoard.style.display !== "block") {
                 displayLocalRankingBoard();                
                 rankingBoard.style.display = "block";
-            }           
+            }       
         
             checkStartCondition();
         }
+
 
 
 
